@@ -1,13 +1,12 @@
 <template>
   <div class="hello">
-    <wheel-view></wheel-view>
+    <wheel-view ref="wheel"></wheel-view>
   </div>
 </template>
 
 <script>
 
   import WheelView from "./wheel/Wheel.vue"
-  import wheel from "./wheel/wheel.js"
 
   export default {
     components: {
@@ -20,16 +19,7 @@
       }
     },
     mounted() {
-      let self = this
-      this.wheel = new wheel(self, {
-        areaNumber: 8,
-        speed: 16,
-        awardNumer: 1,
-        mode: 1,
-        callback: () => {
-         console.log('success');
-        }
-      })
+
     }
   }
 </script>

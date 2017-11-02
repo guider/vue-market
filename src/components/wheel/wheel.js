@@ -27,8 +27,8 @@ class Wheel {
    * @param  {Number} opts.mode     1是指针旋转，2为转盘旋转
    * @param  {Function} opts.callback    结束回调
    */
-  constructor (pageContext, opts) {
-    this.page = pageContext
+  constructor(pageContext, opts) {
+    this.page = pageContext;
     this.deg = 0
     this.areaNumber = opts.areaNumber  // 奖区数量
     this.speed = opts.speed || 16   // 每帧速度
@@ -38,16 +38,18 @@ class Wheel {
     this.isStart = false
     this.endCallBack = opts.callback
 
-    this.init()
+    this.init();
 
     this.page.start = this.start.bind(this)
+
+
   }
 
-  init () {
+  init() {
     let {areaNumber, singleAngle, mode} = this
     singleAngle = 360 / areaNumber
     this.singleAngle = singleAngle
-    this.data={
+    this.data = {
       wheel: {
         singleAngle: singleAngle,
         mode: mode
@@ -55,24 +57,23 @@ class Wheel {
     };
   }
 
-  start () {
-    console.log('start on js');
+  start() {
     let {deg, awardNumer, singleAngle, speed, isStart, mode} = this
-    if(isStart)return
+    if (isStart) return
     this.isStart = true
-    let endAddAngle = (awardNumer - 1) * singleAngle + singleAngle/2 + 360   //中奖角度
+    let endAddAngle = (awardNumer - 1) * singleAngle + singleAngle / 2 + 360   //中奖角度
     let rangeAngle = (Math.floor(Math.random() * 4) + 4) * 360 // 随机旋转几圈再停止
     let cAngle
     deg = 0
-    this.timer = setInterval( () => {
-      if( deg < rangeAngle ){
+    this.timer = setInterval(() => {
+      if (deg < rangeAngle) {
         deg += speed
-      }else{
+      } else {
         cAngle = (endAddAngle + rangeAngle - deg) / speed
         cAngle = cAngle > speed ? speed : cAngle < 1 ? 1 : cAngle
         deg += cAngle
 
-        if(deg >= ( endAddAngle + rangeAngle )){
+        if (deg >= ( endAddAngle + rangeAngle )) {
           deg = endAddAngle + rangeAngle
           this.isStart = false
           clearInterval(this.timer)
@@ -80,20 +81,30 @@ class Wheel {
         }
       }
 
-      this.data={
-        wheel: {
+
+      this.page.wheel={
           singleAngle: singleAngle,
           deg: deg,
           mode: mode
-        }
-      }
-    }, 1000/60)
+      };
+      console.log(this.page.wheel);
+      // console.log(this.page.data.wheel);
+
+      // console.log('deg : '+deg);
+      // console.log(this.page.data.wheel.deg);
+      // this.page.refresh({
+      //   singleAngle: singleAngle,
+      //   deg: deg,
+      //   mode: mode
+      // });
+    }, 1000 / 60)
+
   }
 
-  reset () {
+  reset() {
     let {mode} = this
     this.deg = 0;
-    this.data={
+    this.data = {
       wheel: {
         singleAngle: this.singleAngle,
         deg: 0,
@@ -102,7 +113,7 @@ class Wheel {
     };
   }
 
-  switch (mode) {
+  switch(mode) {
     this.mode = mode
   }
 
